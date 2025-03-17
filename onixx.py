@@ -40,8 +40,8 @@ else:
 		p.writelines(linhas)
 	os.system('python onixx.py')
 		
-		
-		
+def lin():
+	print('_'*50)			
 def verify(opc):
 	opc = int(opc)
 	if opc == 1:
@@ -50,16 +50,19 @@ def space():
 	print('\n\n\n')	
 def show_menu():
 	class nmap:
-		print('----------NMAP---------')
-		print('[01] SCANEAR IP')
-		print('[02] SCANEAR PORTA')
-		print('[03] SCANEAR SISTEMA')
+		print('\033[1;31m', pyfiglet.figlet_format('NMAP', font='slant'), '\033[m')
+		print('\033[1;33m[01] SCANEAR IP\033[m')
+		print('\033[1;33m[02] SCANEAR PORTA\033[m')
+		print('\033[1;33m[03] SCANEAR SISTEMA\033[')
+		
+		
+		
+		
 		
 
 		
 				
-						
-								
+												
 def texto_d(texto):
 	for c in texto:
 		print(c, end="", flush=True)
@@ -67,9 +70,9 @@ def texto_d(texto):
 def menu_principal():
 	while True:
 		text = 'MR.ROBOT'
-		text = pyfiglet.figlet_format(text)
+		text = pyfiglet.figlet_format(text, font='big')
 		clear_()
-		print(f'\033[1;34m{text}\033[m\nby: @akycyel')
+		#print(f'\033[1;34m{text}\033[m\nby: @akycyel')
 		show_menu()
 		space()
 		txt = '\033[1;31mDigite a opção abaixo\033[m\n: '
