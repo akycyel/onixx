@@ -1,22 +1,19 @@
+import shlex
 
+import subprocess
 import requests
 import pyfiglet
 import os
 import time
 
-
+# Verificação de sistema e de login para novos usuários
 def instalar_books():
 	os.system('pip install pyfiglet')
 	os.system('pip install beautifulsoup4')
 	os.system('pkg install nmap')
 	os.system('pip install requests')
 	
-def clear_():
-	sistema = os.name
-	if os.name == 'nt':
-		os.system('cls')
-	else:
-		os.system('clear')
+
 
 if os.path.exists('login.txt'):
 	print('Ok')
@@ -39,13 +36,45 @@ else:
 	with open('onixx.py', 'w') as p:
 		p.writelines(linhas)
 	os.system('python onixx.py')
-		
+	
+
+
+# Daqui pra baixo onde as parada acontece
+
+def clear_():
+	sistema = os.name
+	if os.name == 'nt':
+		os.system('cls')
+	else:
+		os.system('clear')
+			
 def lin():
-	print('_'*50)			
+	print('_'*50)	
+
+def systema(command):
+	command = subprocess.run(shlex.split(command), capture_output=True, text=True)
+	saida = command.stdout
+	 
+	
+	
+def logo(text):
+	os.system('clear')
+	text = pyfiglet.figlet_format(text, font='slant')
+	print('\033[1;31m', text, '\033[m\033[1;37mconsole\033[m\n')
+		
 def verify(opc):
 	opc = int(opc)
 	if opc == 1:
-		print('funcionando')
+		logo('NMAP')
+		ip = input('\033[1;33mDigite o IP:\033[m ')
+		clear_()
+		logo('NMAP')
+		systema(f'nmap {ip}')
+		texto_d('\033[1;33mEnter para voltar ao menu\033[m\n')
+		input('')
+	
+	
+			
 def space():
 	print('\n\n\n')	
 def show_menu():
@@ -79,6 +108,9 @@ def menu_principal():
 		texto_d(txt)
 		opc = input('')
 		if opc == 'sair':
+			break
+		elif opc == 'reiniciar':
+			os.system('python onixx.py')
 			break
 		else:
 			verify(opc)
