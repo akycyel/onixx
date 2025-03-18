@@ -15,7 +15,6 @@ pkg install git
 git clone https://github.com/akycyel/onixx.gt
 
 # Linux [Desktop]
-termux-setup-storage
 pkg install python3
 pkg install git
 git clone https://github.com/akycyel/onixx.gt
