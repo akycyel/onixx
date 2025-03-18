@@ -1,8 +1,8 @@
-import shlex
 
-import subprocess
 import requests
 import pyfiglet
+import shlex
+import subprocess
 import os
 import time
 
@@ -14,24 +14,26 @@ def instalar_books():
 	os.system('pip install requests')
 	
 
-
-if os.path.exists('login.txt'):
+with open('login.txt', 'r') as p:
+	a = p.read()
+if a == 'True':
 	print('Ok')
+
 	
 else:
 	with open('login.txt', 'w') as p:
 		p.write('True')
-		clear_()
+		os.system('clear')
 		txt = 'Iremos instalar as bibliotecas, isso pode demorar dependendo da sua internet.'
 		for c in txt:
 			print(c, end="", flush=True)
 			time.sleep(0.1)
 		time.sleep(2)
 		instalar_books()
-		p.write('\nLivros instalados')
+		
 	with open('onixx.py', 'r') as p:
 		linhas = p.readlines()
-	linhas.insert(0, '\nimport pyfiglet')
+	linhas.insert(0, '\nimport pyfiglet\n')
 	linhas.insert(0, '\nimport requests')
 	with open('onixx.py', 'w') as p:
 		p.writelines(linhas)
@@ -54,6 +56,8 @@ def lin():
 def systema(command):
 	command = subprocess.run(shlex.split(command), capture_output=True, text=True)
 	saida = command.stdout
+	return saida
+	
 	 
 	
 	
