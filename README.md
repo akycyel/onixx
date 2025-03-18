@@ -1,10 +1,15 @@
-# onixxrobot
-Estava no meu PC na madrugada, abri o VS Code e resolvi fazer um programa que ajude usuários de kali linux, entre outros sistemas. O que esse programa faz é facilitar o usuário a usar várias ferramentas de investigação, como o NMAP, REQUETS.
+# Se você usa Kali Linux ou outro sistema semelhante, é só executar o arquivo onixx.py direto.
 
-O programa lhe mostra uma interface amigável com opção explicadas, usuário apenas precisa escolher opção de digitar o alvo. O programa lhe mostrará tudo de forma amigável.
+# Se você estiver em alguma distribuição Linux crua, execute os seguintes comando.
 
+# Android [Termux]
+termux-setup-storage
+pkg install python3
+pkg install git
+git clone https://github.com/akycyel/onixx.gt
 
-[versão:0.5]
-ainda pode conter bugs
-siga minha página
-@akycyel
+# Linux [Desktop]
+termux-setup-storage
+pkg install python3
+pkg install git
+git clone https://github.com/akycyel/onixx.gt
