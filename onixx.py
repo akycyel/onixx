@@ -70,11 +70,53 @@ def verify(opc):
 	opc = int(opc)
 	if opc == 1:
 		logo('NMAP')
-		ip = input('\033[1;33mDigite o IP:\033[m ')
+		ip = input('\033[1;33mDigite o IP ou URL:\033[m ')
 		clear_()
 		logo('NMAP')
-		systema(f'nmap {ip}')
-		texto_d('\033[1;33mEnter para voltar ao menu\033[m\n')
+		terminal = systema(f'nmap {ip}')
+		terminal = terminal.splitlines()
+		terminal = terminal[4:]
+		print(f'\033[1;34mPORTAS DE {ip} SCANEADAS\033[m 🧐')
+		for c in terminal:
+			if '/' in c:
+				if 'open' in c:
+					c = c.replace('open', '\033[1;32mABERTO\033[m😎')
+					print('\033[1;35mPORTA =\033[m', c)
+				elif 'closed' in c:
+					c = c.replace('closed', '\033[1;31mFECHADA\033[m😡')
+					print('\033[1;35mPORTA =\033[m', c)
+				elif 'filtered' in c:
+					c = c.replace('filtered', '\033[1;33mFILTRADA\033[m🤨')
+					print('\033[1;35mPORTA =\033[m', c)
+					
+		
+		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m\n')
+		input('')
+	if opc == 2:
+		logo('NMAP')
+		ip = input('\033[1;33mDigite o IP ou URL:\033[m ')
+		port = input('\033[1;33mDigite a porta:\033[m ')
+		logo('NMAP')
+		terminal = systema(f'nmap -p {port} {ip}')
+		terminal = terminal.splitlines()
+		terminal = terminal[4:]
+		print(f'\033[1;34mPORTA {port} DE {ip} scaneada.\033[m')	
+		for c in terminal:
+			if '/' in c:
+				if 'open' in c:	
+					c = c.replace('open', '\033[1;32mABERTO\033[m😎')
+					print('\033[1;35mPORTA =\033[m', c)
+				elif 'closed' in c:
+					c = c.replace('closed', '\033[1;31mFECHADA\033[m😡')
+					print('\033[1;35mPORTA =\033[m', c)
+				elif 'filtered' in c:
+					c = c.replace('filtered', '\033[1;33mFILTRADA\033[m🤨')
+					print('\033[1;35mPORTA =\033[m', c)
+				else:
+					print(c)
+					
+		
+		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m\n')
 		input('')
 	
 	
@@ -86,7 +128,7 @@ def show_menu():
 		print('\033[1;31m', pyfiglet.figlet_format('NMAP', font='slant'), '\033[m')
 		print('\033[1;33m[01] SCANEAR IP\033[m')
 		print('\033[1;33m[02] SCANEAR PORTA\033[m')
-		print('\033[1;33m[03] SCANEAR SISTEMA\033[')
+		print('\033[1;33m[03] SCANEAR SISTEMA [root]\033[')
 		
 		
 		
@@ -99,7 +141,7 @@ def show_menu():
 def texto_d(texto):
 	for c in texto:
 		print(c, end="", flush=True)
-		time.sleep(0.1)												
+		time.sleep(0.03)												
 def menu_principal():
 	while True:
 		text = 'MR.ROBOT'
