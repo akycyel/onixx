@@ -118,6 +118,25 @@ def verify(opc):
 		
 		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m\n')
 		input('')
+	if opc == 4:
+		logo('NMAP')
+		texto_d('\033[1;33mDigite IP [do roteador/modem]:\033[m ')
+		ip = input(': ')
+		logo('NMAP')
+		print('\033[1;33mpingando em ips\033[m', '🤭')
+		terminal = systema(f'nmap -sn {ip}/24')
+		terminal = terminal.splitlines()
+		for c in terminal:
+			if '192.168' in c or '10.0' in c:
+				c = c.replace('Nmap', '\033[1;35mESSE IP RESPONDEU AO PING:\033[m\033[1;32m')
+				c = c.replace('scan', '')
+				c = c.replace('report', '')
+				c = c.replace('for', '')
+				print(c, '🥱')
+		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m')
+		input('')
+		
+	
 	
 	
 			
@@ -128,7 +147,14 @@ def show_menu():
 		print('\033[1;31m', pyfiglet.figlet_format('NMAP', font='slant'), '\033[m')
 		print('\033[1;33m[01] SCANEAR IP\033[m')
 		print('\033[1;33m[02] SCANEAR PORTA\033[m')
-		print('\033[1;33m[03] SCANEAR SISTEMA [root]\033[')
+		print('\033[1;33m[03] SCANEAR SISTEMA [root]\033[m')
+		print('\033[1;33m[04] DESCOBRIR HOST ATIVO NA REDE\033[m')
+		#print('\033[1;33m[05] SCANEAMENTO FURTIVO [root]\033[m')
+		
+		
+	
+		
+		
 		
 		
 		
