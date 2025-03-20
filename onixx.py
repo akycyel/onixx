@@ -1,6 +1,4 @@
 
-import requests
-import pyfiglet
 import shlex
 import subprocess
 import os
