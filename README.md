@@ -12,9 +12,9 @@
 termux-setup-storage
 pkg install python3
 pkg install git
-git clone https://github.com/akycyel/onixx.gt
+git clone https://github.com/akycyel/onixx.git
 
 # Linux [Desktop]
 pkg install python3
 pkg install git
-git clone https://github.com/akycyel/onixx.gt
+git clone https://github.com/akycyel/onixx.git
