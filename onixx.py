@@ -1,4 +1,6 @@
 
+import requests
+import pyfiglet
 import shlex
 import subprocess
 import os
@@ -55,7 +57,9 @@ def systema(command):
 	command = subprocess.run(shlex.split(command), capture_output=True, text=True)
 	saida = command.stdout
 	return saida
-	
+def systema_os(command):
+	clear_()
+	os.system(command)
 	 
 	
 	
@@ -86,7 +90,7 @@ def verify(opc):
 				elif 'filtered' in c:
 					c = c.replace('filtered', '\033[1;33mFILTRADA\033[m🤨')
 					print('\033[1;35mPORTA =\033[m', c)
-					
+			
 		
 		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m\n')
 		input('')
@@ -133,6 +137,20 @@ def verify(opc):
 				print(c, '🥱')
 		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m')
 		input('')
+	if opc == 10:
+		while True:
+			logo('PROTOCOLOS')
+			texto_d('\033[1;33mDigite o IP:\033[m ')
+			ip = input('')
+			systema_os(f'telnet {ip}')
+			texto_d('\n\033[1;33mVocê quer tentar de novo?:\033[m ')
+			user = input('').lower()
+			if user == 'n':
+				break
+			
+			
+		
+		 
 		
 	
 	
@@ -143,11 +161,19 @@ def space():
 def show_menu():
 	class nmap:
 		print('\033[1;31m', pyfiglet.figlet_format('NMAP', font='slant'), '\033[m')
-		print('\033[1;33m[01] SCANEAR IP\033[m')
+		print('\033[1;33m[01] SCANEAR IP\033[m',          '\033[1;32m                  [ATIVO]\033[m')
 		print('\033[1;33m[02] SCANEAR PORTA\033[m')
 		print('\033[1;33m[03] SCANEAR SISTEMA [root]\033[m')
 		print('\033[1;33m[04] DESCOBRIR HOST ATIVO NA REDE\033[m')
 		#print('\033[1;33m[05] SCANEAMENTO FURTIVO [root]\033[m')
+		
+	class telnet:
+		print('\033[1;31m', pyfiglet.figlet_format('PROTOCOLOS', font='slant'), '\033[m')
+		print('\033[1;33m[10] FAZER CONEXÃO TELNET\033[m', '\033[1;32m         [ATIVO]\033[m')
+		print('\033[1;33m[11] FAZER CONEXÃO SSH\033[m', '\033[1;31m          [MANUNTENÇÃO]\033[m')
+		print('\033[1;33m[12] FAZER CONEXÃO MYSQL\033[m', '\033[1;31m        [MANUNTENÇÃO]\033[m')
+		
+		
 		
 		
 	
