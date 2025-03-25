@@ -32,7 +32,8 @@ else:
 	with open('onixx.py', 'r') as p:
 		linhas = p.readlines()
 	linhas.insert(0, '\nimport pyfiglet\n')
-	linhas.insert(0, '\nimport requests')
+	linhas.insert(0, '\nimport requests\n')
+	linhas.insert(0, '\ninport pexpect')
 	with open('onixx.py', 'w') as p:
 		p.writelines(linhas)
 	os.system('python onixx.py')
