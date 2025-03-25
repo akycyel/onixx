@@ -1,6 +1,3 @@
-import pexpect
-import requests
-import pyfiglet
 import shlex
 import subprocess
 import os
@@ -12,7 +9,7 @@ def instalar_books():
 	os.system('pip install beautifulsoup4')
 	os.system('pkg install nmap')
 	os.system('pip install requests')
-	os.system('pkg install pexpect')
+	os.system('pip install pexpect')
 	
 
 with open('login.txt', 'r') as p:
@@ -35,7 +32,8 @@ else:
 	with open('onixx.py', 'r') as p:
 		linhas = p.readlines()
 	linhas.insert(0, '\nimport pyfiglet\n')
-	linhas.insert(0, '\nimport requests')
+	linhas.insert(0, '\nimport requests\n')
+	linhas.insert(0, '\nimportt pexpect')
 	with open('onixx.py', 'w') as p:
 		p.writelines(linhas)
 	os.system('python onixx.py')
