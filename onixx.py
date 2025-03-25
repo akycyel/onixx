@@ -1,3 +1,6 @@
+import pexpect
+import requests
+import pyfiglet
 import shlex
 import subprocess
 import os
@@ -9,7 +12,7 @@ def instalar_books():
 	os.system('pip install beautifulsoup4')
 	os.system('pkg install nmap')
 	os.system('pip install requests')
-	os.system('pip install pexpect')
+	os.system('pkg install pexpect')
 	
 
 with open('login.txt', 'r') as p:
@@ -32,8 +35,7 @@ else:
 	with open('onixx.py', 'r') as p:
 		linhas = p.readlines()
 	linhas.insert(0, '\nimport pyfiglet\n')
-	linhas.insert(0, '\nimport requests\n')
-	linhas.insert(0, '\nimport pexpect')
+	linhas.insert(0, '\nimport requests')
 	with open('onixx.py', 'w') as p:
 		p.writelines(linhas)
 	os.system('python onixx.py')
@@ -42,6 +44,13 @@ else:
 
 # Daqui pra baixo onde as parada acontece
 
+
+
+def texto_d(texto):
+	for c in texto:
+		print(c, end="", flush=True)
+		time.sleep(0.03)
+		
 def iniciar_telnet(ip, login, password):
 	while True:
 		router = pexpect.spawn(f'telnet {ip}', timeout=20)
@@ -50,6 +59,9 @@ def iniciar_telnet(ip, login, password):
 		router.expect('Password:')
 		router.sendline(password)
 		router.expect('WAP>')
+		texto_d('\033[1;32mconectado com sucesso\033[m')
+		print('😈')
+		time.sleep(2)
 
 		return router
 
@@ -211,7 +223,9 @@ def verify(opc):
 				texto_d('Aguarde 10 segundos')
 				time.sleep(10)
 			elif user == 6:
-				logo('DISPOSITIVOS')
+				clear_()
+				print('\033[1;31m', pyfiglet.figlet_format('DISPOSITIVOS', font='small'), '\033[m')
+				print('    \033[1;34m', pyfiglet.figlet_format('CONECTADOS', font='small'), '\033[m')
 				for c in range(1, 120):
 					saida = router.before.decode()
 					listabase = saida.splitlines()
@@ -228,18 +242,19 @@ def verify(opc):
 					saida = router.before.decode()
 					listabase = saida.splitlines()
 					lista = []
-					
 					for linha in listabase:
 						lista.extend(linha.split())
 					if len(lista) < 18:
+						print('\n\033[1;97m', c - 1, 'DISPOSITIVO ENCONTRADOS\033[m', '🥱')
 						break
-					print('_') * 40
 					nome = lista[24] if len(lista) > 24 else 'Desconhecido'
 					ip = lista[18] if len(lista) > 18 else 'Não encontrado'
 					mac = lista[15] if len(lista) > 15 else 'Não encontrado'
-					print(f'\033[1;35mNOME: {nome}')
-					print(f'IP: {ip}')
-					print(f'MAC ADDRESS: {mac}\033[m')
+					print('\033[1;31m_\033[m' * 50)
+					print(f'\n\033[1;34mNOME: {nome}\033[m')
+					print(f'\033[1;35mIP: {ip}\033[m')
+					print(f'\033[1;32mMAC ADDRESS: {mac}\033[m')
+					print('\033[1;31m_\033[m' * 50)
         				
         				
         				
@@ -247,7 +262,7 @@ def verify(opc):
 						
 						
 						
-				texto_d('\n\033[1;33mENTER PARA VOLTAR')
+				texto_d('\n\033[1;33mENTER PARA VOLTAR AO MENU DO TELNET\033[m')
 				input()
 			else:
 				comandos_telnet(user, router)
@@ -297,10 +312,7 @@ def show_menu():
 		
 				
 												
-def texto_d(texto):
-	for c in texto:
-		print(c, end="", flush=True)
-		time.sleep(0.03)												
+												
 def menu_principal():
 	while True:
 		text = 'MR.ROBOT'
