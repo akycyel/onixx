@@ -9,7 +9,7 @@ def instalar_books():
 	os.system('pip install beautifulsoup4')
 	os.system('pkg install nmap')
 	os.system('pip install requests')
-	os.system('pkg install pexpect')
+	os.system('pip install pexpect')
 	
 
 with open('login.txt', 'r') as p:
