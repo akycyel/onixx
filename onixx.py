@@ -46,7 +46,7 @@ else:
 
 def iniciar_telnet(ip, login, password):
 	while True:
-		router = pexpect.spawn(f'telnet {ip}', timeout=15)
+		router = pexpect.spawn(f'telnet {ip}', timeout=20)
 		router.expect('Login:')
 		router.sendline(login)
 		router.expect('Password:')
@@ -58,14 +58,21 @@ def iniciar_telnet(ip, login, password):
 def comandos_telnet(command, router):
 	if command == 1:
 		router.sendline('set led switch on')
+		router.expect('WAP>')
 	elif command == 2:
 		router.sendline('set led switch off')
+		router.expect('WAP>')
 	elif command == 3:
 		for c in range(0, 40):
 			time.sleep(0.1)
 			router.sendline('set led switch on')
+			router.expect('WAP>')
 			time.sleep(0.1)
 			router.sendline('set led switch off')
+			router.expect('WAP>')
+			
+			
+		
 	elif command == 5:
 		router.sendline('restore manufactory')
 			
@@ -206,23 +213,40 @@ def verify(opc):
 				texto_d('Aguarde 10 segundos')
 				time.sleep(10)
 			elif user == 6:
-				clear_()
 				logo('DISPOSITIVOS')
 				for c in range(1, 120):
+					saida = router.before.decode()
+					listabase = saida.splitlines()
+					if 'success!' in listabase:
+						router.sendline('')
+						router.expect('WAP>')
+					elif '' in listabase:
+						router.sendline('')
+						router.expect('WAP>')
+						
+						
 					router.sendline(f'get wlan associated laninst 1 wlaninst 1 deviceinst {c}')
 					router.expect('WAP>')
 					saida = router.before.decode()
 					listabase = saida.splitlines()
 					lista = []
-					for c in listabase:
-						lista.extend(c.split())
-					if len(lista) > 9 and lista[9] == 'ERROR::Fail':
+					print(listabase)
+					for linha in listabase:
+						lista.extend(linha.split())
+					if len(lista) < 18:
 						break
-					else:
-						print('-' * 50)
-						print('\033[1;35mNOME:', lista[24])
-						print('IP:', lista[18])
-						print('MAC ADDRESS:', lista[15], '\033[m')
+					nome = lista[24] if len(lista) > 24 else 'Desconhecido'
+					ip = lista[18] if len(lista) > 18 else 'Não encontrado'
+					mac = lista[15] if len(lista) > 15 else 'Não encontrado'
+					print(f'\033[1;35mNOME: {nome}')
+					print(f'IP: {ip}')
+					print(f'MAC ADDRESS: {mac}\033[m')
+        				
+        				
+        				
+
+						
+						
 						
 				texto_d('\n\033[1;33mENTER PARA VOLTAR')
 				input()
