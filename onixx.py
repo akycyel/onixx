@@ -1,6 +1,6 @@
-
-
-
+import pexpect
+import requests
+import pyfiglet
 import shlex
 import subprocess
 import os
@@ -12,6 +12,7 @@ def instalar_books():
 	os.system('pip install beautifulsoup4')
 	os.system('pkg install nmap')
 	os.system('pip install requests')
+	os.system('pkg install pexpect')
 	
 
 with open('login.txt', 'r') as p:
@@ -42,6 +43,40 @@ else:
 
 
 # Daqui pra baixo onde as parada acontece
+
+def iniciar_telnet(ip, login, password):
+	while True:
+		router = pexpect.spawn(f'telnet {ip}', timeout=15)
+		router.expect('Login:')
+		router.sendline(login)
+		router.expect('Password:')
+		router.sendline(password)
+		router.expect('WAP>')
+
+		return router
+
+def comandos_telnet(command, router):
+	if command == 1:
+		router.sendline('set led switch on')
+	elif command == 2:
+		router.sendline('set led switch off')
+	elif command == 3:
+		for c in range(0, 40):
+			time.sleep(0.1)
+			router.sendline('set led switch on')
+			time.sleep(0.1)
+			router.sendline('set led switch off')
+	elif command == 5:
+		router.sendline('restore manufactory')
+			
+		
+	
+		
+	
+def fechar_telnet(router):
+	router.close()
+	print('Conexão encerrada')
+	
 
 def clear_():
 	sistema = os.name
@@ -138,15 +173,66 @@ def verify(opc):
 		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m')
 		input('')
 	if opc == 10:
+		logo('PROTOCOLOS')
+		texto_d('\033[1;33mIremos fazer conexão TELNET.\n')
+		texto_d('\033[1;33mDigite o IP\033[m: ')
+		ip = input('')
+		texto_d('\033[1;33mLogin:\033[m ')
+		login = input('')
+		texto_d('\033[1;33mSenha: \033[m')
+		password = input('')
+		clear_()
+		logo('TELNET')
+		router = iniciar_telnet(ip, login, password)
 		while True:
-			logo('PROTOCOLOS')
-			texto_d('\033[1;33mDigite o IP:\033[m ')
-			ip = input('')
-			systema_os(f'telnet {ip}')
-			texto_d('\n\033[1;33mVocê quer tentar de novo?:\033[m ')
-			user = input('').lower()
-			if user == 'n':
+			clear_()
+			logo('TELNET')
+			print('\033[1;33m[1] LIGAR LUZES\033[m 😃')
+			print('\033[1;33m[2] DESLIGAR LUZES\033[m 😴')
+			print('\033[1;33m[3] MODO PISCA PISCA\033[m 😂')
+			print('\033[1;33m[4] REINICIAR MODEM\033[m 😑')
+			print('\033[1;33m[5] RESETAR DE FÁBRICA\033[m 😐')
+			print('\033[1;33m[6] VER QUEM ESTÁ CONECTADO\033[m 🧐')
+			print('\033[1;33m[9] SAIR\033[m 🙂👋')
+			user = int(input('\n\033[1;31mOPÇÃO: '))
+			if user == 9:
+				fechar_telnet(router)
 				break
+			elif user == 4:
+				clear_()
+				logo('TELNET')				
+				router.sendline('reset')
+				texto_d('\033[1;33mEspere o wifi voltar e refaça a conexão para usar os comandos, pois você reiniciou o modem.\033[m')
+				texto_d('Aguarde 10 segundos')
+				time.sleep(10)
+			elif user == 6:
+				clear_()
+				logo('DISPOSITIVOS')
+				for c in range(1, 120):
+					router.sendline(f'get wlan associated laninst 1 wlaninst 1 deviceinst {c}')
+					router.expect('WAP>')
+					saida = router.before.decode()
+					listabase = saida.splitlines()
+					lista = []
+					for c in listabase:
+						lista.extend(c.split())
+					if len(lista) > 9 and lista[9] == 'ERROR::Fail':
+						break
+					else:
+						print('-' * 50)
+						print('\033[1;35mNOME:', lista[24])
+						print('IP:', lista[18])
+						print('MAC ADDRESS:', lista[15], '\033[m')
+						
+				texto_d('\n\033[1;33mENTER PARA VOLTAR')
+				input()
+			else:
+				comandos_telnet(user, router)
+			
+			
+		
+	
+			
 			
 			
 		
