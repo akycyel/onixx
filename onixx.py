@@ -1,6 +1,3 @@
-import pexpect
-import requests
-import pyfiglet
 import shlex
 import subprocess
 import os
@@ -230,11 +227,12 @@ def verify(opc):
 					saida = router.before.decode()
 					listabase = saida.splitlines()
 					lista = []
-					print(listabase)
+					
 					for linha in listabase:
 						lista.extend(linha.split())
 					if len(lista) < 18:
 						break
+					print('_') * 40
 					nome = lista[24] if len(lista) > 24 else 'Desconhecido'
 					ip = lista[18] if len(lista) > 18 else 'Não encontrado'
 					mac = lista[15] if len(lista) > 15 else 'Não encontrado'
