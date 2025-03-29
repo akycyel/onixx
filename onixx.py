@@ -90,13 +90,53 @@ def comandos_telnet(command, router):
 		router.sendline('restore manufactory')
 			
 		
-	
+
 		
 	
 def fechar_telnet(router):
 	router.close()
 	print('Conexão encerrada')
-	
+def animacao1():
+
+
+	skull = """
+       ______
+    .-'      `-.
+   /            \\
+  |              |
+  |,  .-.  .-.  ,|
+  | )(_o/  \o_)( |
+  |/     /\     \|
+  (_     ^^     _)
+   \__|IIIIII|__/
+    | \IIIIII/ |
+    \          /
+     `--------`
+"""
+	skull_open = """
+       ______
+    .-'      `-.
+   /            \\
+  |              |
+  |,  .-.  .-.  ,|
+  | )(_o/  \o_)( |
+  |/     /\     \|
+  (_     ^^     _)
+   \__|IIIIII|__/
+    |  |    |  |
+    |  |----|  |
+    \  '----'  /
+     `--------`
+"""
+
+	for c in range(0, 6):
+		os.system('clear')
+		print(skull)
+		time.sleep(0.1)
+		os.system('clear')
+		print(skull_open)
+		time.sleep(0.1)
+
 
 def clear_():
 	sistema = os.name
@@ -252,6 +292,31 @@ def verify(opc):
 		print('\n\033[1;35m', ip)
 		texto_d('\n\033[1;33mENTER PARA VOLTAR\033[m')
 		input('')
+	elif opc == 8:
+		logo('SCANNER')
+		ip = input('DIGITE O IP: ')
+		logo('INFORMACOES')
+		url = f'http://ip-api.com/json/{ip}'
+		url = requests.get(url).json()
+		print('_' * 50)
+		print('\033[1;35mPaís:\033[m', url.get('country'))
+		print('\033[1;35mCidade:\033[m', url.get('city'))
+		print('\033[1;35mCEP:\033[m', url.get('zip'))
+		print('\033[1;35mEstado:\033[m', url.get('regionName'))
+		print('\033[1;35mSigla do país:\033[m', url.get('countryCode'))
+		print('\033[1;35mSigla do estado:\033[m', url.get('region')) 
+		print('\033[1;35mProvedor:\033[m', url.get('isp'))
+		LAT = url.get('lat')
+		LONG = url.get('lon')
+		link = f'https://www.google.com/maps?q={LAT},{LONG}'
+		print('\033[1;35mLink da localização (não exata):\033[m', link)
+		print('_' * 50)
+
+		
+		
+		
+		
+		input('')
 		
 	elif opc == 10:
 		logo('PROTOCOLOS')
@@ -380,11 +445,16 @@ def show_menu():
 		destino = subprocess.run(['pwd'], capture_output=True, text=True)
 		destino = destino.stdout.strip()
 		ip = subprocess.run(['curl', 'ifconfig.me'], capture_output=True, text=True)
-		usuario = subprocess.run(['whoami'], capture_output=True, text=True)
-		usuario = usuario.stdout.strip()
 		ip = ip.stdout.strip()
+		url = f'http://ip-api.com/json/{ip}'
+		url = requests.get(url).json()
+		usuario = subprocess.run(['whoami'], capture_output=True, text=True)
+		cidade = url.get('city')
+		estado = url.get('country')
+		usuario = usuario.stdout.strip()
 		print('\033[1;37mUSUARIO:\033[m\033[1;35m', usuario)
 		print('\033[1;37mIP:\033[m\033[1;35m', ip, '\033[m')
+		print(f'\033[1;37mCidade:\033[m \033[1;35m{cidade}\033[m')
 		print('\033[1;37mDESTINO:\033[m\033[1;35m', destino, '\033[m')
 		
 	class nmap:
@@ -396,6 +466,7 @@ def show_menu():
 		print('\033[1;33m[05] SCAN FURTIVO \033[m')
 		print('\033[1;33m[06] SCANEAMENTO COM [SYN ACK RST] \033[1;35m(root)\033[m')
 		print('\033[1;33m[07] DESCOBRIR IP DE SITE\033[m')
+		print('\033[1;33m[08] CONSULTAR IP\033[m')
 		
 	class protocolos:
 		print('\033[1;31m', pyfiglet.figlet_format('PROTOCOLOS', font='slant'), '\033[m')
@@ -426,10 +497,13 @@ def show_menu():
 												
 def menu_principal():
 	while True:
+		disponiveis = [1, 2, 3 , 4, 5, 6 , 7, 8, 10, 11, 12, 17, 18]
 		text = 'MR.ROBOT'
 		text = pyfiglet.figlet_format(text, font='big')
 		clear_()
 		#print(f'\033[1;34m{text}\033[m\nby: @akycyel')
+		animacao1()
+		clear_()
 		show_menu()
 		space()
 		texto_d('\033[1;32mESCOLHA UMA OPÇÃO:\033[m ')
@@ -439,9 +513,12 @@ def menu_principal():
 		elif opc == 'reiniciar':
 			os.system('python onixx.py')
 			break
-		else:
+		elif opc in disponiveis:
 			verify(opc)
-		
+		else:
+			clear_()
+			print(f'\033[1;31mEssa opção \033[m\033[1;33m[{opc}]\033[m\033[1;31m não existe\033[m')
+			time.sleep(3)
 		
 		
 		
