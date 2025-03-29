@@ -1,3 +1,8 @@
+
+import pexpect
+import requests
+
+import pyfiglet
 import shlex
 import subprocess
 import os
@@ -144,7 +149,7 @@ def verify(opc):
 		
 		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m\n')
 		input('')
-	if opc == 2:
+	elif opc == 2:
 		logo('NMAP')
 		ip = input('\033[1;33mDigite o IP ou URL:\033[m ')
 		port = input('\033[1;33mDigite a porta:\033[m ')
@@ -170,7 +175,7 @@ def verify(opc):
 		
 		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m\n')
 		input('')
-	if opc == 4:
+	elif opc == 4:
 		logo('NMAP')
 		texto_d('\033[1;33mDigite IP [do roteador/modem]:\033[m ')
 		ip = input(': ')
@@ -187,7 +192,68 @@ def verify(opc):
 				print(c, '🥱')
 		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m')
 		input('')
-	if opc == 10:
+	elif opc == 5:
+		logo('FURTIVO')
+		texto_d('\033[1;33mDIGITE O IP:\033[m ')
+		ip = input('')
+		logo('FURTIVO')
+		terminal = systema(f'nmap -Pn {ip}').splitlines()
+		terminal = terminal[4:]
+		print('\033[1;31mscaneamento furtivo em', ip, '\033[m')
+		for c in terminal:
+			if '/' in c:
+				if 'open' in c:	
+					c = c.replace('open', '\033[1;32mABERTO\033[m😎')
+					print('\033[1;35mPORTA =\033[m', c)
+				elif 'closed' in c:
+					c = c.replace('closed', '\033[1;31mFECHADA\033[m😡')
+					print('\033[1;35mPORTA =\033[m', c)
+				elif 'filtered' in c:
+					c = c.replace('filtered', '\033[1;33mFIREWALL ATIVO\033[m🤨')
+					print('\033[1;35mPORTA =\033[m', c)
+				else:
+					print(c)
+				
+		texto_d('\n\033[1;33mENTER PARA VOLTAR\033[m')
+		input()
+	elif opc == 6:
+		logo('SYN ACK')
+		ip = input('\033[mDIGITE O IP:\033[m ')
+		logo('SYN ACK')
+		terminal = systema(f'nmap -sS {ip}').splitlines()
+		terminal = terminal[4:]
+		for c in terminal:
+			if '/' in c:
+				if 'open' in c:	
+					c = c.replace('open', '\033[1;32mABERTO\033[m😎')
+					print('\033[1;35mPORTA =\033[m', c)
+				elif 'closed' in c:
+					c = c.replace('closed', '\033[1;31mFECHADA\033[m😡')
+					print('\033[1;35mPORTA =\033[m', c)
+				elif 'filtered' in c:
+					c = c.replace('filtered', '\033[1;33mFIREWALL ATIVO\033[m🤨')
+					print('\033[1;35mPORTA =\033[m', c)
+				else:
+					print(c)
+		texto_d('\033[1;33mENTER PARA VOLTAR\033[m')
+		input()
+	elif opc == 7:
+		logo('SCANNER')
+		texto_d('\033[1;33mURL DO SITE:\033[m ')
+		url = input('')
+		logo('SCANNER')
+		terminal = systema(f'ping -c 1 {url}').splitlines()
+		terminal = terminal[1]
+		ip = terminal.replace('PING', '')
+		ip = ip.replace('64', '')
+		ip = ip.replace('bytes', '')
+		ip = ip.replace('from', '')
+		print('\033[1;33m[RESULTADO ABAIXO]\033[m')
+		print('\n\033[1;35m', ip)
+		texto_d('\n\033[1;33mENTER PARA VOLTAR\033[m')
+		input('')
+		
+	elif opc == 10:
 		logo('PROTOCOLOS')
 		texto_d('\033[1;33mIremos fazer conexão TELNET.\n')
 		texto_d('\033[1;33mDigite o IP\033[m: ')
@@ -264,6 +330,32 @@ def verify(opc):
 				input()
 			else:
 				comandos_telnet(user, router)
+	elif opc == 17:
+		def ataque(ip, protocolo, porta, usuario):
+			if protocolo == '':
+				print('ok')
+			
+		logo('HYDRA')
+		ip = input('DIGITE O IP: ')
+		logo('HYDRA')
+		texto_d('\033[1;37mprecisamos de algumas informações para o ataque\033[m')
+		print('\n\n\033[1;33m[1] SSH\033[m')
+		print('\033[1;34m[2] TELNET\033[m')
+		print('\033[1;35m[3] MYSQL\033[m\n')
+		texto_d('\033[1;31mESCOLHA QUAL USARÁ:\033[m ')
+		protocolo = int(input(''))
+		texto_d('\n\033[1;37mvai usar porta específica?\033[m')
+		print('\n\n\033[1;33m[1] SIM\033[m')
+		print('\033[1;34m[2] NÃO\033[m')
+		porta = input('\n\033[1;31mESCOLHA:\033[m ')
+		#ataque(ip, protocolo, porta, usuario)
+				
+			 
+			
+			
+			
+		
+		
 			
 			
 		
@@ -281,19 +373,40 @@ def verify(opc):
 def space():
 	print('\n\n\n')	
 def show_menu():
+	
+	class info:
+		#print(pyfiglet.figlet_format('BEM VINDO', font='small'))
+		print('\033[1;32mwellcome to onixx\033[m', '🕵️‍♂️')
+		destino = subprocess.run(['pwd'], capture_output=True, text=True)
+		destino = destino.stdout.strip()
+		ip = subprocess.run(['curl', 'ifconfig.me'], capture_output=True, text=True)
+		usuario = subprocess.run(['whoami'], capture_output=True, text=True)
+		usuario = usuario.stdout.strip()
+		ip = ip.stdout.strip()
+		print('\033[1;37mUSUARIO:\033[m\033[1;35m', usuario)
+		print('\033[1;37mIP:\033[m\033[1;35m', ip, '\033[m')
+		print('\033[1;37mDESTINO:\033[m\033[1;35m', destino, '\033[m')
+		
 	class nmap:
-		print('\033[1;31m', pyfiglet.figlet_format('NMAP', font='slant'), '\033[m')
-		print('\033[1;33m[01] SCANEAR IP\033[m',          '\033[1;32m                  [ATIVO]\033[m')
+		print('\n\n\033[1;31m', pyfiglet.figlet_format('SCANNER', font='slant'), '\033[m')
+		print('\033[1;33m[01] SCANEAR IP\033[m')
 		print('\033[1;33m[02] SCANEAR PORTA\033[m')
 		print('\033[1;33m[03] SCANEAR SISTEMA [root]\033[m')
 		print('\033[1;33m[04] DESCOBRIR HOST ATIVO NA REDE\033[m')
-		#print('\033[1;33m[05] SCANEAMENTO FURTIVO [root]\033[m')
+		print('\033[1;33m[05] SCAN FURTIVO \033[m')
+		print('\033[1;33m[06] SCANEAMENTO COM [SYN ACK RST] \033[1;35m(root)\033[m')
+		print('\033[1;33m[07] DESCOBRIR IP DE SITE\033[m')
 		
-	class telnet:
+	class protocolos:
 		print('\033[1;31m', pyfiglet.figlet_format('PROTOCOLOS', font='slant'), '\033[m')
-		print('\033[1;33m[10] FAZER CONEXÃO TELNET\033[m', '\033[1;32m         [ATIVO]\033[m')
-		print('\033[1;33m[11] FAZER CONEXÃO SSH\033[m', '\033[1;31m          [MANUNTENÇÃO]\033[m')
-		print('\033[1;33m[12] FAZER CONEXÃO MYSQL\033[m', '\033[1;31m        [MANUNTENÇÃO]\033[m')
+		print('\033[1;33m[10] FAZER CONEXÃO TELNET\033[m')
+		print('\033[1;33m[11] FAZER CONEXÃO SSH\033[m')
+		print('\033[1;33m[12] FAZER CONEXÃO MYSQL\033[m')
+	class ataques:
+		print('\033[1;31m', pyfiglet.figlet_format('ATACKs', font='slant'), '\033[m')
+		print('\033[1;33m[17] QUEBRA DE SENHA\033[m')
+		print('\033[1;33m[18] QUEBRA DE USUÁRIO E SENHA\033[m')
+		
 		
 		
 		
@@ -319,8 +432,7 @@ def menu_principal():
 		#print(f'\033[1;34m{text}\033[m\nby: @akycyel')
 		show_menu()
 		space()
-		txt = '\033[1;31mDigite a opção abaixo\033[m\n: '
-		texto_d(txt)
+		texto_d('\033[1;32mESCOLHA UMA OPÇÃO:\033[m ')
 		opc = input('')
 		if opc == 'sair':
 			break
