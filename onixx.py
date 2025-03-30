@@ -129,12 +129,14 @@ def animacao1():
      `--------`
 """
 
-	for c in range(0, 6):
+	for c in range(0, 10):
 		os.system('clear')
-		print(skull)
+		print('\033[1;31mstarting onixx\033[m')
+		print('\033[1;32m', skull, '\033[m')
 		time.sleep(0.1)
 		os.system('clear')
-		print(skull_open)
+		print('\033[1;31mstarting onixx\033[m')
+		print('\033[1;32m', skull_open, '\033[m')
 		time.sleep(0.1)
 
 
@@ -395,9 +397,10 @@ def verify(opc):
 				input()
 			else:
 				comandos_telnet(user, router)
+
 	elif opc == 17:
 		def ataque(ip, protocolo, porta, usuario):
-			if protocolo == '':
+			if porta == '':
 				print('ok')
 			
 		logo('HYDRA')
@@ -413,7 +416,7 @@ def verify(opc):
 		print('\n\n\033[1;33m[1] SIM\033[m')
 		print('\033[1;34m[2] NÃO\033[m')
 		porta = input('\n\033[1;31mESCOLHA:\033[m ')
-		#ataque(ip, protocolo, porta, usuario)
+		ataque(ip, protocolo, porta, usuario)
 				
 			 
 			
@@ -497,7 +500,7 @@ def show_menu():
 												
 def menu_principal():
 	while True:
-		disponiveis = [1, 2, 3 , 4, 5, 6 , 7, 8, 10, 11, 12, 17, 18]
+		disponiveis = ['1', '2', '3', '4', '5', '6', '7', '8', '10', '11', '12', '17', '18']
 		text = 'MR.ROBOT'
 		text = pyfiglet.figlet_format(text, font='big')
 		clear_()
