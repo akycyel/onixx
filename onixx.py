@@ -1,7 +1,6 @@
 
 import pexpect
 import requests
-
 import pyfiglet
 import shlex
 import subprocess
@@ -129,6 +128,7 @@ def animacao1():
      `--------`
 """
 
+	
 	for c in range(0, 10):
 		os.system('clear')
 		print('\033[1;31mstarting onixx\033[m')
@@ -512,6 +512,8 @@ def menu_principal():
 		texto_d('\033[1;32mESCOLHA UMA OPÇÃO:\033[m ')
 		opc = input('')
 		if opc == 'sair':
+			clear_()
+			texto_d('\033[1;37mAté logo...💗️\033[m')
 			break
 		elif opc == 'reiniciar':
 			os.system('python onixx.py')
