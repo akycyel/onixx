@@ -400,9 +400,17 @@ def verify(opc):
 
 	elif opc == 17:
 		def ataque(ip, protocolo, porta, usuario):
-			if porta == '':
-				print('ok')
-			
+			if protocolo == 1:
+				protocolo = 'ssh'
+				terminal = subprocess.Popen(['hydra', '-l', usuario, '-P', 'senhas.txt', f'{protocolo}://{ip}:{porta}'])
+				logo('HYDRA')
+				print('\033[1;33mProcesso começou\033[m')
+				terminal.wait()
+				print('\033[1;33mEncerrado o processo\033[m')
+				input('')
+					
+					
+					
 		logo('HYDRA')
 		ip = input('DIGITE O IP: ')
 		logo('HYDRA')
@@ -412,10 +420,11 @@ def verify(opc):
 		print('\033[1;35m[3] MYSQL\033[m\n')
 		texto_d('\033[1;31mESCOLHA QUAL USARÁ:\033[m ')
 		protocolo = int(input(''))
-		texto_d('\n\033[1;37mvai usar porta específica?\033[m')
-		print('\n\n\033[1;33m[1] SIM\033[m')
-		print('\033[1;34m[2] NÃO\033[m')
-		porta = input('\n\033[1;31mESCOLHA:\033[m ')
+		texto_d('\n\033[1;37mNÚMERO DA PORTA: \033[m')
+		porta = input('')
+		logo('HYDRA')
+		texto_d('\033[1;33mNOME DE USUÁRIO: ')
+		usuario = input('')
 		ataque(ip, protocolo, porta, usuario)
 				
 			 
