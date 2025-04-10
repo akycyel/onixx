@@ -1,6 +1,7 @@
 
-
-
+import pexpect
+import requests
+import pyfiglet
 import shlex
 import subprocess
 import os
@@ -405,8 +406,26 @@ def verify(opc):
 				logo('HYDRA')
 				print('\033[1;33mProcesso começou\033[m')
 				terminal.wait()
-				print('\033[1;33mEncerrado o processo\033[m')
+				texto_d('\033[1;33mo processo encerrou\033[m\n')
+				print('\033[1;33mENTER PARA VOLTAR AO MENU\033[m')
 				input('')
+			elif protocolo == 2:
+				protocolo = 'telnet'
+				terminal = subprocess.Popen(['hydra', '-l', usuario, '-P', 'senhas.txt', f'{protocolo}://{ip}:{porta}'])
+				logo('HYDRA')
+				print('\033[1;33mProcesso começou\033[m')
+				terminal.wait()
+				texto_d('\033[1;33mo processo encerrou\033[m\n')
+				print('\033[1;33mENTER PARA VOLTAR AO MENU\033[m')
+			elif protocolo == 3:
+				protocolo = 'mysql'
+				terminal = subprocess.Popen(['hydra', '-l', usuario, '-P', 'senhas.txt', f'{protocolo}://{ip}:{porta}'])
+				logo('HYDRA')
+				print('\033[1;33mProcesso começou\033[m')
+				terminal.wait()
+				texto_d('\033[1;33mo processo encerrou\033[m\n')
+				print('\033[1;33mENTER PARA VOLTAR AO MENU\033[m')
+				
 					
 					
 					
@@ -470,24 +489,28 @@ def show_menu():
 		
 	class nmap:
 		print('\n\n\033[1;31m', pyfiglet.figlet_format('SCANNER', font='slant'), '\033[m')
-		print('\033[1;33m[01] SCANEAR IP\033[m')
-		print('\033[1;33m[02] SCANEAR PORTA\033[m')
-		print('\033[1;33m[03] SCANEAR SISTEMA [root]\033[m')
-		print('\033[1;33m[04] DESCOBRIR HOST ATIVO NA REDE\033[m')
-		print('\033[1;33m[05] SCAN FURTIVO \033[m')
-		print('\033[1;33m[06] SCANEAMENTO COM [SYN ACK RST] \033[1;35m(root)\033[m')
-		print('\033[1;33m[07] DESCOBRIR IP DE SITE\033[m')
-		print('\033[1;33m[08] CONSULTAR IP\033[m')
+		print('\033[1;33m[\033[1;32m01\033[1;33m] SCANEAR IP\033[m')
+		print('\033[1;33m[\033[1;32m02\033[1;33m] SCANEAR PORTA\033[m')
+		print('\033[1;33m[\033[1;32m03\033[1;33m] SCANEAR SISTEMA [root]\033[m')
+		print('\033[1;33m[\033[1;32m04\033[1;33m] DESCOBRIR HOST ATIVO NA REDE\033[m')
+		print('\033[1;33m[\033[1;32m05\033[1;33m] SCAN FURTIVO \033[m')
+		print('\033[1;33m[\033[1;32m06\033[1;33m] SCANEAMENTO COM [SYN ACK RST] \033[1;35m(root)\033[m')
+		print('\033[1;33m[\033[1;32m07\033[1;33m] DESCOBRIR IP DE SITE\033[m')
+		print('\033[1;33m[\033[1;32m08\033[1;33m] CONSULTAR IP\033[m')
 		
 	class protocolos:
 		print('\033[1;31m', pyfiglet.figlet_format('PROTOCOLOS', font='slant'), '\033[m')
-		print('\033[1;33m[10] FAZER CONEXÃO TELNET\033[m')
-		print('\033[1;33m[11] FAZER CONEXÃO SSH\033[m')
-		print('\033[1;33m[12] FAZER CONEXÃO MYSQL\033[m')
+		print('\033[1;33m[\033[1;32m10\033[1;33m] FAZER CONEXÃO TELNET\033[m')
+		print('\033[1;33m[\033[1;32m11\033[1;33m] FAZER CONEXÃO SSH\033[m')
+		print('\033[1;33m[\033[1;32m12\033[1;33m] FAZER CONEXÃO MYSQL\033[m')
 	class ataques:
 		print('\033[1;31m', pyfiglet.figlet_format('ATACKs', font='slant'), '\033[m')
-		print('\033[1;33m[17] QUEBRA DE SENHA\033[m')
-		print('\033[1;33m[18] QUEBRA DE USUÁRIO E SENHA\033[m')
+		print('\033[1;33m[\033[1;32m17\033[1;33m] QUEBRA DE SENHA\033[m')
+		print('\033[1;33m[\033[1;32m18\033[1;33m] QUEBRA DE USUÁRIO E SENHA\033[m')
+		
+	class detecoes:
+		print('\033[1;31m', pyfiglet.figlet_format('OPEN CV', font='slant'), '\033[m')
+		
 		
 		
 		
