@@ -12,7 +12,7 @@ def verificar_pacotes():
 		print('\033[1;33mVerificando', pacotes_do_onixx[c], '\033[m')
 		if pacotes_do_onixx[c] not in terminal.stdout:
 			print('\033[1;31mPacote', pacotes_do_onixx[c], 'não instalado\033[m' )
-			os.system(f'pip install {pacotes_do_onixx[c]})
+			os.system(f'pip install {pacotes_do_onixx[c]}')
 		else:
 			print('\033[1;32mPacote', pacotes_do_onixx[c], 'instalado\033[m')
 			
