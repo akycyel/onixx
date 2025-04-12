@@ -1,12 +1,13 @@
 
 import pexpect
 import requests
+
 import pyfiglet
+
 import shlex
 import subprocess
 import os
 import time
-
 # Verificação de sistema e de login para novos usuários
 def instalar_books():
 	os.system('pip install pyfiglet')
@@ -16,32 +17,20 @@ def instalar_books():
 	os.system('pip install pexpect')
 	
 
-with open('login.txt', 'r') as p:
-	a = p.read()
-if a == 'True':
-	print('Ok')
-
+def verificar_pacotes():
+	clear_()
+	texto_d('\033[1;37mVERIFICANDO PACOTES...\033[m\n')
 	
-else:
-	with open('login.txt', 'w') as p:
-		p.write('True')
-		os.system('clear')
-		txt = 'Iremos instalar as bibliotecas, isso pode demorar dependendo da sua internet.'
-		for c in txt:
-			print(c, end="", flush=True)
-			time.sleep(0.1)
-		time.sleep(2)
-		instalar_books()
-		
-	with open('onixx.py', 'r') as p:
-		linhas = p.readlines()
-	linhas.insert(0, '\nimport pyfiglet\n')
-	linhas.insert(0, '\nimport requests\n')
-	linhas.insert(0, '\nimport pexpect')
-	with open('onixx.py', 'w') as p:
-		p.writelines(linhas)
-	os.system('python onixx.py')
-	
+	pacotes_do_onixx = ['pyfiglet', 'beautifulsoup4', 'nmap', 'requests', 'pexpect']
+	terminal = subprocess.run(['pip', 'list'], capture_output=True, text=True)
+	for c in range(0, 5):
+		time.sleep(1)
+		print('\033[1;33mVerificando', pacotes_do_onixx[c], '\033[m')
+		if pacotes_do_onixx[c] not in terminal.stdout:
+			print('\033[1;31mPacote', pacotes_do_onixx[c], 'não instalado\033[m' )
+			system.os('pip install ', pacotes_do_onixx[c])
+		else:
+			print('\033[1;32mPacote', pacotes_do_onixx[c], 'instalado\033[m')
 
 
 # Daqui pra baixo onde as parada acontece
@@ -129,7 +118,7 @@ def animacao1():
 """
 
 	
-	for c in range(0, 10):
+	for c in range(0, 6):
 		os.system('clear')
 		print('\033[1;31mstarting onixx\033[m')
 		print('\033[1;32m', skull, '\033[m')
@@ -217,6 +206,14 @@ def verify(opc):
 		
 		texto_d('\n\033[1;33mEnter para voltar ao menu\033[m\n')
 		input('')
+	elif opc == 3:
+		logo('SCANNER')
+		texto_d('DIGITE O IP: ')
+		ip = input('')
+		logo('SCANNER')
+		terminal = systema(f'nmap -O {ip}')
+		print(terminal)
+		input('ENTER')
 	elif opc == 4:
 		logo('NMAP')
 		texto_d('\033[1;33mDigite IP [do roteador/modem]:\033[m ')
@@ -485,13 +482,15 @@ def show_menu():
 		print('\033[1;37mUSUARIO:\033[m\033[1;35m', usuario)
 		print('\033[1;37mIP:\033[m\033[1;35m', ip, '\033[m')
 		print(f'\033[1;37mCidade:\033[m \033[1;35m{cidade}\033[m')
-		print('\033[1;37mDESTINO:\033[m\033[1;35m', destino, '\033[m')
+		print('\033[1;37mPWD:\033[m\033[1;35m', destino, '\033[m')
+		print('\033[1;37mBY:\033[m\033[1;35m @akycyel\033[', '🤖')
+		 
 		
 	class nmap:
 		print('\n\n\033[1;31m', pyfiglet.figlet_format('SCANNER', font='slant'), '\033[m')
 		print('\033[1;33m[\033[1;32m01\033[1;33m] SCANEAR IP\033[m')
 		print('\033[1;33m[\033[1;32m02\033[1;33m] SCANEAR PORTA\033[m')
-		print('\033[1;33m[\033[1;32m03\033[1;33m] SCANEAR SISTEMA [root]\033[m')
+		print('\033[1;33m[\033[1;32m03\033[1;33m] SCANEAR SISTEMA [OFF]\033[m')
 		print('\033[1;33m[\033[1;32m04\033[1;33m] DESCOBRIR HOST ATIVO NA REDE\033[m')
 		print('\033[1;33m[\033[1;32m05\033[1;33m] SCAN FURTIVO \033[m')
 		print('\033[1;33m[\033[1;32m06\033[1;33m] SCANEAMENTO COM [SYN ACK RST] \033[1;35m(root)\033[m')
@@ -509,7 +508,10 @@ def show_menu():
 		print('\033[1;33m[\033[1;32m18\033[1;33m] QUEBRA DE USUÁRIO E SENHA\033[m')
 		
 	class detecoes:
-		print('\033[1;31m', pyfiglet.figlet_format('OPEN CV', font='slant'), '\033[m')
+		print('\033[1;31m', pyfiglet.figlet_format('OPENCV', font='slant'), '\033[m')
+		print('\033[1;33m[\033[1;32m25\033[1;33m] DETECTAR ROSTOS EM UMA FOTO\033[m')
+		print('\033[1;33m[\033[1;32m26\033[1;33m] EXTRAIR E SALVAR ROSTO DE UMA IMAGEM\033[m')
+		print('\033[1;33m[\033[1;32m27\033[1;33m] DETECTAR ROSTOS EM CAMERA\033[m')
 		
 		
 		
@@ -559,7 +561,7 @@ def menu_principal():
 		
 		
 		
-		
+verificar_pacotes()		
 menu_principal()
 	
 		
