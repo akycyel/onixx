@@ -414,6 +414,17 @@ def verify(opc):
 		texto_d('\033[1;33mNOME DE USUÁRIO: ')
 		usuario = input('')
 		ataque(ip, protocolo, porta, usuario)
+	elif opc in [25, 26, 27]:
+		logo('OPENCV')
+		opc = opc
+		texto_d('\033[1;33mCole o nome da imagem:\033[m ')
+		caminho = input('')
+		subprocess.run(['python', 'detect.py', str(opc), str(caminho)])
+		input('')
+
+		
+		
+		
 				
 			 
 			
@@ -506,7 +517,7 @@ def show_menu():
 												
 def menu_principal():
 	while True:
-		disponiveis = ['1', '2', '3', '4', '5', '6', '7', '8', '10', '11', '12', '17', '18']
+		disponiveis = ['1', '2', '3', '4', '5', '6', '7', '8', '10', '11', '12', '17', '18', '25', '26']
 		text = 'MR.ROBOT'
 		text = pyfiglet.figlet_format(text, font='big')
 		clear_()
